@@ -1,0 +1,96 @@
+{% schema %}
+{
+  "name": "Short Stuff News",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Short Stuff in the News"
+    },
+    {
+      "type": "textarea",
+      "id": "news_links",
+      "label": "News Links (one per line)",
+      "info": "Enter each URL on a new line."
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "News Box Border Radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Short Stuff News",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="news-section">
+  <h2>{{ section.settings.title }}</h2>
+  <div class="news-grid">
+    {% assign links = section.settings.news_links | split: '\n' %}
+    {% for link in links %}
+      {% if link != blank %}
+        <a href="{{ link | escape }}" class="news-item" target="_blank">
+          <!-- Placeholder for dynamic content -->
+          <div class="news-thumbnail">
+            <img src="https://via.placeholder.com/150" alt="Thumbnail" data-url="{{ link | escape }}">
+          </div>
+          <div class="news-content">
+            <h3>Loading Title...</h3>
+            <p>Loading summary...</p>
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .news-section {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .news-item {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid #ddd;
+    padding: 10px;
+    transition: box-shadow 0.3s;
+    border-radius: {{ section.settings.border_radius }}px; /* Dynamic border radius */
+  }
+  .news-item:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  .news-thumbnail img {
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+    object-fit: cover;
+  }
+  .news-content h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+  .news-content p {
+    font-size: 0.9em;
+    color: #666;
+  }
+</style>
