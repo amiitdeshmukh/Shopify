@@ -1,96 +1,278 @@
 {% schema %}
 {
-  "name": "Short Stuff News",
+  "name": "News Cards",
   "settings": [
     {
       "type": "text",
-      "id": "title",
-      "label": "Section Title",
-      "default": "Short Stuff in the News"
-    },
-    {
-      "type": "textarea",
-      "id": "news_links",
-      "label": "News Links (one per line)",
-      "info": "Enter each URL on a new line."
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Short Stuff in News"
     },
     {
       "type": "range",
-      "id": "border_radius",
-      "label": "News Box Border Radius",
-      "min": 0,
-      "max": 20,
-      "step": 1,
+      "id": "card_image_height",
+      "label": "Card Image Height",
+      "min": 150,
+      "max": 400,
+      "step": 10,
       "unit": "px",
-      "default": 8
+      "default": 220
+    }
+  ],
+  "blocks": [
+    {
+      "type": "news_card",
+      "name": "News Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Card Title",
+          "default": "News Title"
+        },
+        {
+          "type": "textarea",
+          "id": "card_description",
+          "label": "Card Description",
+          "default": "Add your news description here."
+        },
+        {
+          "type": "url",
+          "id": "card_link",
+          "label": "Card Link URL"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Short Stuff News",
-      "category": "Custom"
+      "name": "News Cards",
+      "blocks": [
+        {
+          "type": "news_card"
+        },
+        {
+          "type": "news_card"
+        },
+        {
+          "type": "news_card"
+        }
+      ]
     }
   ]
 }
 {% endschema %}
 
-<div class="news-section">
-  <h2>{{ section.settings.title }}</h2>
-  <div class="news-grid">
-    {% assign links = section.settings.news_links | split: '\n' %}
-    {% for link in links %}
-      {% if link != blank %}
-        <a href="{{ link | escape }}" class="news-item" target="_blank">
-          <!-- Placeholder for dynamic content -->
-          <div class="news-thumbnail">
-            <img src="https://via.placeholder.com/150" alt="Thumbnail" data-url="{{ link | escape }}">
+<section class="news-cards-section">
+  {% if section.settings.section_heading != blank %}
+    <h2 class="news-cards-heading">{{ section.settings.section_heading }}</h2>
+  {% endif %}
+
+  {% if section.blocks.size > 0 %}
+    <div class="news-cards-grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'news_card' %}
+          <div class="news-card-item" {{ block.shopify_attributes }}>
+            {% if block.settings.card_link != blank %}
+              <a href="{{ block.settings.card_link }}" class="news-card-link" target="_blank" rel="noopener">
+            {% endif %}
+            
+            <div class="news-card-image-wrapper">
+              {% if block.settings.card_image != blank %}
+                {{ block.settings.card_image | image_url: width: 600 | image_tag: 
+                   loading: 'lazy',
+                   class: 'news-card-image',
+                   alt: block.settings.card_title }}
+              {% else %}
+                <div class="news-card-placeholder">
+                  <span>Add Image</span>
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="news-card-content">
+              <h3 class="news-card-title">{{ block.settings.card_title }}</h3>
+              <p class="news-card-description">{{ block.settings.card_description }}</p>
+            </div>
+
+            {% if block.settings.card_link != blank %}
+              </a>
+            {% endif %}
           </div>
-          <div class="news-content">
-            <h3>Loading Title...</h3>
-            <p>Loading summary...</p>
-          </div>
-        </a>
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="news-cards-empty">
+      <p>No news cards added yet. Click "Add block" to create your first news card.</p>
+    </div>
+  {% endif %}
+</section>
 
 <style>
-  .news-section {
-    padding: 20px;
-    max-width: 1200px;
+  .news-cards-section {
+    width: 100%;
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 60px 40px;
   }
-  .news-grid {
+
+  .news-cards-heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 48px 0;
+    color: #333;
+  }
+
+  .news-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
   }
-  .news-item {
-    display: flex;
-    flex-direction: column;
+
+  .news-card-item {
+    position: relative;
+    background: #ffffff;
+    border: 2px solid #F4A460;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .news-card-link {
+    display: block;
     text-decoration: none;
     color: inherit;
-    border: 1px solid #ddd;
-    padding: 10px;
-    transition: box-shadow 0.3s;
-    border-radius: {{ section.settings.border_radius }}px; /* Dynamic border radius */
   }
-  .news-item:hover {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+  .news-card-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
   }
-  .news-thumbnail img {
+
+  .news-card-image-wrapper {
     width: 100%;
-    height: auto;
-    max-height: 150px;
+    height: {{ section.settings.card_image_height }}px;
+    overflow: hidden;
+    background: #f5f5f5;
+    position: relative;
+  }
+
+  .news-card-image {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
   }
-  .news-content h3 {
-    font-size: 1.2em;
-    margin: 10px 0;
+
+  .news-card-item:hover .news-card-image {
+    transform: scale(1.08);
   }
-  .news-content p {
-    font-size: 0.9em;
+
+  .news-card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #F4A460 0%, #D2691E 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .news-card-content {
+    padding: 24px;
+  }
+
+  .news-card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #8B4513;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .news-card-description {
+    font-size: 15px;
+    line-height: 1.6;
     color: #666;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .news-cards-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+    font-size: 16px;
+  }
+
+  /* Tablet */
+  @media screen and (max-width: 768px) {
+    .news-cards-section {
+      padding: 48px 24px;
+    }
+
+    .news-cards-heading {
+      font-size: 2rem;
+      margin-bottom: 32px;
+    }
+
+    .news-cards-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .news-card-image-wrapper {
+      height: 200px;
+    }
+
+    .news-card-content {
+      padding: 20px;
+    }
+
+    .news-card-title {
+      font-size: 18px;
+    }
+
+    .news-card-description {
+      font-size: 14px;
+    }
+  }
+
+  /* Mobile */
+  @media screen and (max-width: 480px) {
+    .news-cards-section {
+      padding: 40px 16px;
+    }
+
+    .news-cards-heading {
+      font-size: 1.75rem;
+      margin-bottom: 24px;
+    }
+
+    .news-cards-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .news-card-image-wrapper {
+      height: 200px;
+    }
   }
 </style>

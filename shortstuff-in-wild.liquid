@@ -1,0 +1,715 @@
+<style>
+  .shortstuff-wild-independent {
+    background-color: {{ section.settings.background_color }};
+    padding: {{ section.settings.section_padding_top }}px 0 {{ section.settings.section_padding_bottom }}px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shortstuff-wild-independent .wild-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Static Rainbow - No Floating */
+  .shortstuff-wild-independent .static-rainbow {
+    position: absolute;
+    top: {{ section.settings.rainbow_top_desktop }}%;
+    right: {{ section.settings.rainbow_right_desktop }}%;
+    width: {{ section.settings.rainbow_size_desktop }}px;
+    height: auto;
+    z-index: 1;
+    opacity: 0.9;
+  }
+
+  /* Section Header */
+  .shortstuff-wild-independent .wild-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .shortstuff-wild-independent .wild-instagram-icon {
+    display: inline-block;
+    width: {{ section.settings.instagram_icon_size }}px;
+    height: {{ section.settings.instagram_icon_size }}px;
+    margin-right: 1rem;
+    vertical-align: middle;
+    object-fit: contain;
+  }
+
+  .shortstuff-wild-independent .wild-title {
+    font-size: {{ section.settings.title_size }}px;
+    font-weight: bold;
+    color: {{ section.settings.title_color }} !important;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Curvy Line Icon */
+  .shortstuff-wild-independent .wild-curvy-line-icon {
+    display: block;
+    position: absolute;
+    left: {{ section.settings.curvy_line_x_position }}%;
+    transform: translateX(-50%);
+    top: {{ section.settings.curvy_line_y_position }}px;
+    width: {{ section.settings.curvy_line_size }}px;
+    height: auto;
+    z-index: 3;
+  }
+
+  .shortstuff-wild-independent .wild-description {
+    font-size: {{ section.settings.description_size }}px;
+    color: {{ section.settings.description_color }} !important;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .shortstuff-wild-independent .wild-description p {
+    color: {{ section.settings.description_color }} !important;
+    margin: 0;
+  }
+
+  /* Gallery Grid */
+  .shortstuff-wild-independent .wild-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .shortstuff-wild-independent .wild-gallery-item {
+    position: relative;
+    border-radius: {{ section.settings.image_border_radius }}px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    background: white;
+  }
+
+  .shortstuff-wild-independent .wild-gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* CTA Section */
+  .shortstuff-wild-independent .wild-cta-section {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .shortstuff-wild-independent .wild-cta-text {
+    font-size: {{ section.settings.cta_text_size }}px;
+    color: {{ section.settings.cta_text_color }} !important;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  .shortstuff-wild-independent .wild-cta-button {
+    background-color: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+    padding: 1rem 2.5rem;
+    border-radius: {{ section.settings.button_border_radius }}px;
+    font-size: {{ section.settings.button_text_size }}px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .shortstuff-wild-independent .wild-cta-button:hover {
+    background-color: {{ section.settings.button_hover_bg_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: {{ section.settings.button_text_color }};
+  }
+
+  /* Mobile Responsive */
+  @media screen and (max-width: 768px) {
+    .shortstuff-wild-independent {
+      padding: {{ section.settings.section_padding_top_mobile }}px 0 {{ section.settings.section_padding_bottom_mobile }}px 0;
+    }
+
+    .shortstuff-wild-independent .wild-container {
+      padding: 0 1rem;
+    }
+
+    .shortstuff-wild-independent .wild-title {
+      font-size: {{ section.settings.title_size | times: 0.8 }}px;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .shortstuff-wild-independent .wild-instagram-icon {
+      width: {{ section.settings.instagram_icon_size | times: 0.8 }}px;
+      height: {{ section.settings.instagram_icon_size | times: 0.8 }}px;
+      margin-right: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .shortstuff-wild-independent .wild-curvy-line-icon {
+      width: {{ section.settings.curvy_line_size_mobile }}px;
+      top: {{ section.settings.curvy_line_y_position_mobile }}px;
+      left: {{ section.settings.curvy_line_x_position_mobile }}%;
+    }
+
+    .shortstuff-wild-independent .wild-description {
+      font-size: {{ section.settings.description_size | times: 0.9 }}px;
+    }
+
+    .shortstuff-wild-independent .wild-gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .shortstuff-wild-independent .static-rainbow {
+      top: {{ section.settings.rainbow_top_mobile }}% !important;
+      right: {{ section.settings.rainbow_right_mobile }}% !important;
+      width: {{ section.settings.rainbow_size_mobile }}px !important;
+    }
+
+    .shortstuff-wild-independent .wild-cta-text {
+      font-size: {{ section.settings.cta_text_size | times: 0.9 }}px;
+    }
+  }
+
+  /* Tablet */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .shortstuff-wild-independent .wild-gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 1025px) {
+    .shortstuff-wild-independent .wild-gallery-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>
+
+<section class="shortstuff-wild-independent">
+  <!-- Static Rainbow -->
+  {% if section.settings.rainbow_icon != blank %}
+    <img
+      src="{{ section.settings.rainbow_icon | image_url: width: 300 }}"
+      alt="Rainbow decoration"
+      class="static-rainbow"
+      loading="lazy"
+    >
+  {% endif %}
+
+  <div class="wild-container">
+    <!-- Section Header -->
+    <div class="wild-header">
+      <h2 class="wild-title">
+        {% if section.settings.instagram_icon != blank %}
+          <img
+            src="{{ section.settings.instagram_icon | image_url: width: 100 }}"
+            alt="Instagram icon"
+            class="wild-instagram-icon"
+            loading="lazy"
+          >
+        {% else %}
+          <span style="font-size: {{ section.settings.instagram_icon_size }}px; margin-right: 1rem;">📷</span>
+        {% endif %}
+        {% if section.settings.title != blank %}
+          {{ section.settings.title | escape }}
+        {% endif %}
+      </h2>
+
+      <!-- Curvy Line Icon -->
+      {% if section.settings.curvy_line_icon != blank %}
+        <img
+          src="{{ section.settings.curvy_line_icon | image_url: width: 400 }}"
+          alt="Decorative curvy line"
+          class="wild-curvy-line-icon"
+          loading="lazy"
+        >
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <div class="wild-description">{{ section.settings.description }}</div>
+      {% endif %}
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="wild-gallery-grid">
+      {% for block in section.blocks %}
+        <div class="wild-gallery-item" {{ block.shopify_attributes }}>
+          {% if block.settings.image != blank %}
+            {% if block.settings.link != blank %}
+              <a href="{{ block.settings.link }}" target="_blank" rel="noopener">
+                <img
+                  src="{{ block.settings.image | image_url: width: 400 }}"
+                  alt="{{ block.settings.image.alt | default: 'Customer photo' }}"
+                  class="wild-gallery-image"
+                  loading="lazy"
+                >
+              </a>
+            {% else %}
+              <img
+                src="{{ block.settings.image | image_url: width: 400 }}"
+                alt="{{ block.settings.image.alt | default: 'Customer photo' }}"
+                class="wild-gallery-image"
+                loading="lazy"
+              >
+            {% endif %}
+          {% else %}
+            <div
+              class="wild-gallery-image"
+              style="background-color: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #999; font-size: 14px;"
+            >
+              Upload Image
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- CTA Section -->
+    {% if section.settings.show_cta %}
+      <div class="wild-cta-section">
+        {% if section.settings.cta_text != blank %}
+          <p class="wild-cta-text">{{ section.settings.cta_text | escape }}</p>
+        {% endif %}
+
+        {% if section.settings.cta_button_text != blank %}
+          <a
+            href="{{ section.settings.cta_button_link | default: '#' }}"
+            class="wild-cta-button"
+            target="_blank"
+            rel="noopener"
+          >
+            {{ section.settings.cta_button_text | escape }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Wild Gallery V2",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop Bottom Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile Top Padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile Bottom Padding",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#F5A623"
+    },
+    {
+      "type": "header",
+      "content": "Static Rainbow Position"
+    },
+    {
+      "type": "image_picker",
+      "id": "rainbow_icon",
+      "label": "Rainbow Icon (PNG recommended)"
+    },
+    {
+      "type": "range",
+      "id": "rainbow_size_desktop",
+      "min": 50,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop Rainbow Size",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "rainbow_size_mobile",
+      "min": 30,
+      "max": 120,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Rainbow Size",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "rainbow_top_desktop",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "label": "Desktop Top Position",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "rainbow_right_desktop",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "label": "Desktop Right Position",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "rainbow_top_mobile",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "label": "Mobile Top Position",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "rainbow_right_mobile",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "label": "Mobile Right Position",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "instagram_icon",
+      "label": "Instagram Icon (PNG recommended)",
+      "info": "Upload Instagram camera icon or leave empty for emoji"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "#Shortstuff In The Wild."
+    },
+    {
+      "type": "header",
+      "content": "Curvy Line Icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "curvy_line_icon",
+      "label": "Upload Curvy Line Icon (SVG recommended)"
+    },
+    {
+      "type": "range",
+      "id": "curvy_line_size",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "curvy_line_y_position",
+      "min": -20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Y Position (from title)",
+      "default": 45,
+      "info": "Negative values will overlap the title"
+    },
+    {
+      "type": "range",
+      "id": "curvy_line_x_position",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Desktop X Position (left to right)",
+      "default": 50,
+      "info": "50% = center, 0% = left, 100% = right"
+    },
+    {
+      "type": "range",
+      "id": "curvy_line_size_mobile",
+      "min": 40,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "curvy_line_y_position_mobile",
+      "min": -15,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Y Position (from title)",
+      "default": 35,
+      "info": "Negative values will overlap the title"
+    },
+    {
+      "type": "range",
+      "id": "curvy_line_x_position_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Mobile X Position (left to right)",
+      "default": 50,
+      "info": "50% = center, 0% = left, 100% = right"
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>We love seeing your little ones in our baby bamboo pajamas, and now it's your turn to shine. Tag us and use #BamAndStitch for a chance to be featured in our gallery. Share your favorite moments, and let's celebrate the style and joy we bring to your family!</p>"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show Call to Action",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Text",
+      "default": "Follow us on Instagram @shortstuff"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_text",
+      "label": "Button Text",
+      "default": "Follow Us"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 24,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Font Size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "cta_text_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "CTA Text Font Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "instagram_icon_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Instagram Icon Size",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "cta_text_color",
+      "label": "CTA Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Button Hover Background Color",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Image Settings"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Image Border Radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Border Radius",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gallery_image",
+      "name": "Gallery Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer Photo"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)",
+          "info": "Link to Instagram post or customer profile"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wild Gallery V2",
+      "blocks": [
+        {
+          "type": "gallery_image"
+        },
+        {
+          "type": "gallery_image"
+        },
+        {
+          "type": "gallery_image"
+        },
+        {
+          "type": "gallery_image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

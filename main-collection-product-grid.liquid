@@ -1525,6 +1525,7 @@
     const collectionUrl = input.getAttribute('data-collection-url');
     
     if (input.checked) {
+      // If selecting a different collection, navigate to it
       if (collectionValue !== '{{ collection.handle }}') {
         window.location.href = collectionUrl;
         return;
@@ -1534,7 +1535,15 @@
         activeFilters.collection.push(collectionValue);
       }
     } else {
+      // When unchecking, remove from active filters
       activeFilters.collection = activeFilters.collection.filter(c => c !== collectionValue);
+      
+      // If unchecking the current collection, reload to show all collections
+      if (collectionValue === '{{ collection.handle }}' && activeFilters.collection.length === 0) {
+        // Navigate to "all products" or parent collection
+        window.location.href = '/collections/all';
+        return;
+      }
     }
     
     updateActiveFiltersDisplay();
@@ -1781,7 +1790,7 @@
       "id": "fallback_prints",
       "label": "Fallback Prints (if no blocks added)",
       "info": "Enter print collection handles separated by commas (e.g., jungle-jamboree,delphi-dolphins,peacock-paradise)",
-      "default": "jungle-jamboree,delphi-dolphins,aussie-adventure,scottish-snuggles,panda-paws,peacock-paradise"
+      "default": "jungle-jamboree,delphi-dolphins,peacock-paradise,aussie-adventure,scottish-snuggles,panda-paws"
     },
     {
       "type": "header",
